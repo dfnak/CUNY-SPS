@@ -1,0 +1,144 @@
+---
+author: "Karim Hammoud"
+output: openintro::lab_report
+---
+
+## 606 - Chapter 1 Homework.
+# Chapter 1 - Introduction to Data
+Smoking habits of UK residents. (1.10, p. 20) A survey was conducted to study the smoking habits of
+UK residents. Below is a data matrix displaying a portion of the data collected in this survey. Note that “£”
+stands for British Pounds Sterling, “cig” stands for cigarettes, and “N/A” refers to a missing component of
+the data.
+
+I have added the row data on new repository on Github via the link 'https://raw.githubusercontent.com/akarimhammoud/606-Homework1/master/606%20-%20Homework1%20-%20smoking.csv'
+
+# First we get the data from Github
+```{r}
+url <- "https://raw.githubusercontent.com/akarimhammoud/606-Homework1/master/606%20-%20Homework1%20-%20smoking.csv"
+smokingdata <- read.csv(file= url, header=TRUE, sep = ",")
+summary(smokingdata)
+```
+
+# (a) What does each row of the data matrix represent?
+
+- Each row or the data represent observation in the data set of the UK residents, it represent the person with thier age, marital status, nationality, ethnicity, income, region, and cig smoked... etc. as we see in teh first row is a 38 years old divorced male from the norht region and with a gross income of 2600-5200 and he is not a smoker.
+```{r}
+head(smokingdata)
+```
+
+
+# (b) How many participants were included in the survey?
+
+- The total rows show 1691 which means there are 1691 of the participants.
+```{r}
+nrow(smokingdata)
+```
+
+
+# (c) Indicate whether each variable in the study is numerical or categorical. If numerical, identify as continuous or discrete. If categorical, indicate if the variable is ordinal.
+
+* gender: Categorical 
+* age: Numerical Discrete.
+* maritalStatus: Categorical Ordinal.
+* highestQualification: Categorical 
+* nationality: Categorical.
+* ethnicity: Categorical Ordinal.
+* grossIncome: Numerical Continuous
+* region: categorical.
+* smoke: Categorical 
+* amtWeekends: Numerical Discrete.
+* amtWeekdays: Numerical Discrete.
+
+
+```{r}
+str(smokingdata)
+```
+
+```{r}
+
+```
+
+# Cheaters, scope of inference. 
+(1.14, p. 29) Exercise 1.5 introduces a study where researchers studying
+the relationship between honesty, age, and self-control conducted an experiment on 160 children between the
+ages of 5 and 15.
+. The researchers asked each child to toss a fair coin in private and to record the outcome
+(white or black) on a paper sheet, and said they would only reward children who report white. Half the
+students were explicitly told not to cheat and the others were not given any explicit instructions. Differences
+were observed in the cheating rates in the instruction and no instruction groups, as well as some differences
+across children’s characteristics within each group.
+
+(a) Identify the population of interest and the sample in this study?
+* The population interest is the children between ages of 5 and 15. 
+* the sample is the 160 children.
+
+(b) Comment on whether or not the results of the study can be generalized to the population, and if the
+findings of the study can be used to establish causal relationships.
+* This research was made for children in the age of 5 - 15, we can generalize this study for children in similar age. I think the findings will be different if it was made on children in different ages. 
+*Also this study rewards children who report white only which can effect the result and make it more biased, therefore there is a possibilty to establish a casual relationship because half of the children were informed to not cheat.
+
+
+# Reading the paper. 
+(1.28, p. 31) Below are excerpts from two articles published in the NY Times:
+
+(a) An article titled Risks: Smokers Found More Prone to Dementia states the following:
+“Researchers analyzed data from 23,123 health plan members who participated in a voluntary exam and
+health behavior survey from 1978 to 1985, when they were 50-60 years old. 23 years later, about 25% of
+the group had dementia, including 1,136 with Alzheimer’s disease and 416 with vascular dementia. After
+adjusting for other factors, the researchers concluded that pack-a- day smokers were 37% more likely than
+nonsmokers to develop dementia, and the risks went up with increased smoking; 44% for one to two packs a
+day; and twice the risk for more than two packs.”
+Based on this study, can we conclude that smoking causes dementia later in life? Explain your reasoning.
+
+* The answer: we can not conclude 100% that smoking can cause dementia later in life based on this survey only, but smoking can be a risk factor that could be added to the other health factors that cause dementia. and also this study didn't conclude that also nonsmoker could be gettin dementia later in life.
+Therefore we can say smoking could increase the risk of having it.
+
+
+
+(b) Another article titled The School Bully Is Sleepy states the following:
+“The University of Michigan study, collected survey data from parents on each child’s sleep habits and asked
+both parents and teachers to assess behavioral concerns. About a third of the students studied were identified
+by parents or teachers as having problems with disruptive behavior or bullying. The researchers found that
+children who had behavioral issues and those who were identified as bullies were twice as likely to have shown
+symptoms of sleep disorders.”
+A friend of yours who read the article says, “The study shows that sleep disorders lead to bullying in school
+children.” Is this statement justified? If not, how best can you describe the conclusion that can be drawn
+from this study?
+
+* The answer: this statement is not justified based on the sleeping disorder, there are many risk factors the study didn't mention that could cause bullying like family orientation etc. but at the same time sleeping disorder could cause a bad attitude but its not the only reason for it. 
+
+
+# Exercise and mental health. 
+(1.34, p. 35) A researcher is interested in the effects of exercise on mental
+health and he proposes the following study: Use stratified random sampling to ensure representative
+proportions of 18-30, 31-40 and 41-55 year olds from the population. Next, randomly assign half the subjects
+from each age group to exercise twice a week, and instruct the rest not to exercise. Conduct a mental health
+exam at the beginning and at the end of the study, and compare the results.
+
+
+(a) What type of study is this?
+* The answer: experimental study for controlled groups.
+
+(b) What are the treatment and control groups in this study?
+* The answer: The treatment are the ones who got picked for the exercise in the study, and the control group are the ones who was told not to exercise.
+
+(c) Does this study make use of blocking? If so, what is the blocking variable?
+* The answer: yes it does and they are the ages 18-30, 31-40 and 41-55.
+
+(d) Does this study make use of blinding?
+* The answer: No it does not make use of blinding, they conducted an exam at the beginning and at the end and they compared the results.
+
+(e) Comment on whether or not the results of the study can be used to establish a causal relationship
+between exercise and mental health, and indicate whether or not the conclusions can be generalized to
+the population at large.
+* The answer: Certainly it can establish a casual relationship between exercise and mental health, but because its a small study it can't be generalized yet.
+
+(f) Suppose you are given the task of determining if this proposed study should get funding. Would you
+have any reservations about the study proposal?
+* The answer: I would have few reservations, the ages and size of this study can be larger and excersice could be different for each aging groups.
+
+
+
+
+
+
