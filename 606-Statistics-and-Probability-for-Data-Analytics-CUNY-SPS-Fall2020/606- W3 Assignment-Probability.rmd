@@ -1,0 +1,338 @@
+---
+title: "Chapter 3 - Probability"
+author: "Karim Hammoud"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    highlight: pygments
+    theme: cerulean
+    toc: true
+    toc_float: true
+  pdf_document: default
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(eval = TRUE, results = TRUE, fig.show = "show", message = TRUE)
+library(tidyverse)
+library(openintro)
+```
+
+### Exercise 1
+
+**Dice rolls.** (3.6, p. 92) If you roll a pair of fair dice, what is the probability of
+
+(a) getting a sum of 1? 
+
+**The answer:** the probability of getting a sum of 1 is 0, we can't get sum 1 in a pair of fair dice.
+
+(b) getting a sum of 5?
+
+**The answer:** 11.11%, the probability of getting a sum of 5 is, first we get 1 and second 4 and vice versa, and we get first 2 and second 3 and vice versa, so there are 4 possible outcomes for getting sum of 5. 
+```{r}
+4 * (1/36)
+```
+
+(c) getting a sum of 12?
+
+**The answer:** 2.78%, the probability of getting a sum of 12 is we get in both pair of fair dice 6, therefore there is only one possibility. 
+
+```{r}
+(1/6) * (1/6)
+```
+
+--------------------------------------------------------------------------------
+
+\clearpage
+
+### Exercise 2
+
+**Poverty and language**. (3.8, p. 93) The American Community Survey is an ongoing survey that provides data every year to give communities the current information they need to plan investments and services. The 2010 American Community Survey estimates that 14.6% of Americans live below the poverty line, 20.7% speak a language other than English (foreign language) at home, and 4.2% fall into both categories.
+
+14.6% poverty
+20.7% speak another language
+4.2% in both
+ 
+(a) Are living below the poverty line and speaking a foreign language at home disjoint?
+
+**The answer:** No they are not disjoint, there are Americans in both categories.
+
+(b) Draw a Venn diagram summarizing the variables and their associated probabilities.
+
+```{r}
+library(VennDiagram)
+grid.newpage()
+draw.pairwise.venn(14.6, 20.7, 4.2, category = c("Below Poverty Line", "Speak Other Language"), lty = rep("blank",2), fill = c("blue", "green"), alpha = rep(0.5, 2), cat.pos = c(0, 0), cat.dist = rep(0.025, 2))
+```
+
+(c) What percent of Americans live below the poverty line and only speak English at home?
+
+**The answer:** 10.4%
+
+```{r}
+0.146 - .042
+```
+(d) What percent of Americans live below the poverty line or speak a foreign language at home?
+
+**The answer:** 31.1%
+
+```{r}
+0.146 - .042 + 0.207
+```
+
+(e) What percent of Americans live above the poverty line and only speak English at home?
+
+**The answer:** 68.9%
+
+```{r}
+1 - 0.311
+```
+
+(f) Is the event that someone lives below the poverty line independent of the event that the person speaks a foreign language at home?
+
+**The answer:** They are not independent because there is 4.2% fall in both categories.
+
+
+
+
+
+
+--------------------------------------------------------------------------------
+
+\clearpage
+
+### Exercise 3
+
+**Assortative mating**. (3.18, p. 111) Assortative mating is a nonrandom mating pattern where individuals with similar genotypes and/or phenotypes mate with one another more frequently than what would be expected under a random mating pattern. Researchers studying this topic collected data on eye colors of 204 Scandinavian men and their female partners. The table below summarizes the results. For simplicity, we only include heterosexual relationships in this exercise.
+
+\begin{center}
+\begin{tabular}{ll  ccc c}
+                                        &           & \multicolumn{3}{c}{\textit{Partner (female)}} \\
+\cline{3-5}
+                                        &           & Blue  & Brown     & Green     & Total \\
+\cline{2-6}
+                                        & Blue      & 78    & 23        & 13        & 114 \\
+\multirow{2}{*}{\textit{Self (male)}}   & Brown     & 19    & 23        & 12        & 54 \\
+                                        & Green     & 11    & 9         & 16        & 36 \\
+\cline{2-6}
+                                        & Total     & 108   & 55        & 41        & 204
+\end{tabular}
+\end{center}
+
+
+(a) What is the probability that a randomly chosen male respondent or his partner has blue eyes?
+
+**The answer:** 70.6%
+
+```{r}
+(114 / 204) + (108 / 204) - (78 / 204)
+```
+
+(b) What is the probability that a randomly chosen male respondent with blue eyes has a partner with blue eyes?
+
+**The answer:** 68.4%
+
+```{r}
+(78 / 114) 
+```
+
+(c) What is the probability that a randomly chosen male respondent with brown eyes has a partner with blue eyes? What about the probability of a randomly chosen male respondent with green eyes having a partner with blue eyes?
+
+**The answer:** **35.2%** is the probability that a randomly chosen male respondent with brown eyes has a partner with blue eyes and **30.6%** is the probability of a randomly chosen male respondent with green eyes having a partner with blue eyes
+
+```{r}
+19 / 54
+
+11 / 36
+```
+
+(d) Does it appear that the eye colors of male respondents and their partners are independent? Explain your reasoning.
+
+**The answer:** Not its not independent, the percentage of male and their partners with the same eye color are higher than the percentages with different eye colors.
+
+
+
+--------------------------------------------------------------------------------
+
+\clearpage
+
+### Exercise 4
+
+**Books on a bookshelf**. (3.26, p. 114) The table below shows the distribution of books on a bookcase
+based on whether they are nonfiction or fiction and hardcover or paperback.
+
+\begin{center}
+\begin{tabular}{ll  cc c}
+                                &           & \multicolumn{2}{c}{\textit{Format}} \\
+\cline{3-4}
+                                &           & Hardcover     & Paperback     & Total \\
+\cline{2-5}
+\multirow{2}{*}{\textit{Type}}  & Fiction   & 13            & 59            & 72 \\
+                                & Nonfiction& 15            & 8             & 23 \\
+\cline{2-5}
+                                & Total     & 28            & 67            & 95 \\
+\cline{2-5}
+\end{tabular}
+\end{center}
+
+(a) Find the probability of drawing a hardcover book first then a paperback fiction book second when drawing without replacement.
+
+**The answer:** 18.5%
+
+```{r}
+(28 / 95) * (59 / 94)
+```
+
+(b) Determine the probability of drawing a fiction book first and then a hardcover book second, when drawing without replacement.
+
+**The answer:** 22.6%
+
+```{r}
+(72 / 95) * (28 / 94)
+```
+
+(c) Calculate the probability of the scenario in part (b), except this time complete the calculations under the scenario where the first book is placed back on the bookcase before randomly drawing the second book.
+
+**The answer:** 22.3%
+
+```{r}
+(72 / 95) * (28 / 95)
+```
+
+(d) The final answers to parts (b) and (c) are very similar. Explain why this is the case.
+
+**The answer:** They are very similar and total here changed by only one book before randomly drawing the second book which is hardcover one.
+
+
+
+
+
+
+--------------------------------------------------------------------------------
+
+\clearpage
+
+### Exercise 5
+
+**Baggage fees**. (3.34, p. 124) An airline charges the following baggage fees: $25 for the first bag and $35 for the second. Suppose 54% of passengers have no checked luggage, 34% have one piece of checked luggage and 12% have two pieces. We suppose a negligible portion of people check more than two bags.
+
+25$ first bag
+35$ second bag
+54% no bags
+34% one bag
+12% two bags
+
+
+
+(a) Build a probability model, compute the average revenue per passenger, and compute the corresponding standard deviation.
+
+
+```{r}
+number_of_bages <- c(0, 1, 2)
+charges <- c(0, 25, 60)
+percenrages_of_passangers <- c(0.54, 0.34, 0.12)
+
+the_charges <- tibble(number_of_bages, charges, percenrages_of_passangers)
+the_charges
+```
+
+(b) About how much revenue should the airline expect for a flight of 120 passengers? With what standard deviation? Note any assumptions you make and if you think they are justified.
+
+**The answer:** the average revenue =  15.7 & standard deviation = 19.3
+
+```{r}
+Average_revenue <- sum(charges * percenrages_of_passangers)
+print(paste("the average revenue = ", Average_revenue))
+```
+
+```{r}
+SD <- sqrt((0 - Average_revenue)^2 * 0.54 + (25 - Average_revenue)^.34 + (60 - Average_revenue)^2 * 0.12)
+
+print(paste( "standard deviation =", SD))
+```
+
+
+
+
+--------------------------------------------------------------------------------
+
+\clearpage
+
+### Exercise 6
+
+**Income and gender**. (3.38, p. 128) The relative frequency table below displays the distribution of annual total personal income (in 2009 inflation-adjusted dollars) for a representative sample of 96,420,486 Americans. These data come from the American Community Survey for 2005-2009. This sample is comprised of 59% males and 41% females.
+
+\begin{center}
+\begin{tabular}{lr}
+  \hline
+\textit{Income}         & \textit{Total} \\
+  \hline
+\$1 to \$9,999 or loss  & 2.2\% \\
+\$10,000 to \$14,999    & 4.7\% \\
+\$15,000 to \$24,999    & 15.8\% \\
+\$25,000 to \$34,999    & 18.3\% \\
+\$35,000 to \$49,999    & 21.2\% \\
+\$50,000 to \$64,999    & 13.9\% \\
+\$65,000 to \$74,999    & 5.8\% \\
+\$75,000 to \$99,999    & 8.4\% \\
+\$100,000 or more       & 9.7\% \\
+   \hline
+\end{tabular}
+\end{center}
+
+(a) Describe the distribution of total personal income.
+
+**The answer:** The distribution looks like a normal since the majority of the income distribution are in the middle of the of the percentages.
+
+```{r}
+the_income <- c('$1 to $9,999',
+'$10,000 to $14,999',
+'$15,000 to $24,999',
+'$25,000 to $34,999',
+'$35,000 to $49,999',
+'$50,000 to $64,999',
+'$65,000 to $74,999',
+'$75,000 to $99,999',
+'$100,000 or more')
+
+the_percentage <- c(0.022, 0.047, 0.158, 0.183, 0.212, 0.139, 0.058, 0.084, 0.097)
+```
+
+```{r}
+US_income <- tibble(the_income, the_percentage)
+US_income
+```
+
+```{r}
+barplot(US_income$the_percentage, names.arg = the_income,ylim=c(0,0.25), las = 2)
+```
+
+
+(b) What is the probability that a randomly chosen US resident makes less than $50,000 per year?
+
+
+**The answer:** 62.2%
+```{r}
+(21.2/100)+(18.3/100)+(15.8/100)+(4.7/100)+(2.2/100)
+```
+
+(c) What is the probability that a randomly chosen US resident makes less than $50,000 per year and is female? Note any assumptions you make.
+
+**The answer:** 25.5%
+```{r}
+0.41 * ((21.2/100)+(18.3/100)+(15.8/100)+(4.7/100)+(2.2/100)) 
+```
+
+(d) The same data source indicates that 71.8% of females make less than $50,000 per year. Use this value to determine whether or not the assumption you made in part (c) is valid.
+
+**The answer:** gender and income in the US are dependent.
+```{r}
+(0.41 * ((21.2/100)+(18.3/100)+(15.8/100)+(4.7/100)+(2.2/100))) * 0.718
+```
+
+The END...
+
+Karim Hammoud
+
+
