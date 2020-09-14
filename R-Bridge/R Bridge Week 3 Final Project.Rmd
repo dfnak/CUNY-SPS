@@ -1,0 +1,124 @@
+---
+output:
+  html_document: default
+  pdf_document: default
+---
+# R Bridge Course Final Project
+
+The goal of this project is to analyze the online sales in five countries "Australia, Belgium, France, Germany, United Kingdom",conducted for expansion and investments purposes.
+
+The sample size used for this project is 3% of online sales in those countries in 2010 rendomly selected from full dataset.
+
+it is important in the project to understand the features of the data and predict the best location for expansion and future investments.
+
+I will check the number of sales in each country using adding a column of total amount of sales in each country.
+
+
+## 1. Data Exploration: This should include summary statistics, means, medians, quartiles, or any other relevant information about the data set. Please include some conclusions in the R Markdown text.
+
+Load the Library
+``` {r}
+library(ggplot2)
+``` 
+First we get the data, show the summary, means. medians.
+``` {r}
+url <- "https://raw.githubusercontent.com/akarimhammoud/RbridgeFinalProjectnlineRetail/master/Online%20Retail.csv"
+OnlineSales <- read.csv(file= url, header=TRUE, sep=",")
+summary(OnlineSales)
+head(OnlineSales)
+str(OnlineSales)
+```
+
+## 2. Data wrangling: Please perform some basic transformations. They will need to make sense but could include column renaming, creating a subset of the data, replacing values, or creating new columns with derived data (for example – if it makes sense you could sum two columns together)
+
+Create new frame of data and called "mySets", with only five columns and rename the "Description Column" to "Details", and the "InvoiceDate Column" to "date".
+```{r}
+mySets <- OnlineSales[ c("Description", "Quantity", "InvoiceDate", "UnitPrice", "Country")]
+colnames(mySets) <- c("Details", "Quantity", "Date", "UnitPrice", "Country")
+head(mySets)
+```
+Replacing 'United Kingdom' to 'UK' in the data of the Country Column.
+```{r}
+mySets$Country <- sub("*United Kingdom", "UK", mySets$Country)
+head(mySets)
+```
+Here I want to add new column and call it "Amount" to calculate the total amount of sales by multiplying the UnitePrice column with Quantity column.
+```{r}
+mySets["Amount"] <- mySets$Quantity * mySets$UnitPrice
+head(mySets)
+```
+We porject that the total Amount of sales will increase at least 10% next year, we increase the total Amount of sales by 10% and create new column for the AmountNextYear "Amount" Multipled by 10%.
+```{r}
+mySets$AmountNextYear <- mySets$Amount * 1.10
+head(mySets)
+```
+
+# 3. Graphics: Please make sure to display at least one scatter plot, box plot and histogram. Don’t be limited to this. Please explore the many other options in R packages such as ggplot2.
+
+Boxplot of Transactions spreads of Amount spent on online purchases per Country, We notice people are willing to spend reletivley higher Purchases Amounts in the UK.
+```{r}
+ggplot(mySets, aes(y = Amount,x = Country, fill= Amount)) + geom_boxplot()+ggtitle("Boxplot of Amount spreads of online purchases per Country.")+theme_classic()+xlab("Countries")
+```
+
+Boxplot of Unit Price spreads of online purchases per Country.
+```{r}
+ggplot(mySets, aes(y = UnitPrice,x = Country, fill= UnitPrice)) + geom_boxplot()+ggtitle("Boxplot of Unit Price spreads of online purchases per Country.")+theme_classic()+xlab("Country")
+```
+
+Using histogram we want to check the frequency of the Unit Prices for the items that been sold in those countries, we notice the majorty of the items has unit prices less than $10.
+
+```{r}
+hist(mySets$UnitPrice, breaks= 10, xlim = c(0, 50), ylim = c(0, 500), xlab = "UnitPrice", main = "R Histogram \nUnit Price", col = "red")
+```
+
+Now to make a Density Plot
+
+```{r}
+hist(mySets$UnitPrice, freq = FALSE, main = "Density Plot of the Unit Prices in the Study")
+```
+
+New we add the distribution curve for the unit prices by adding aesthetics.
+```{r}
+hist(mySets$UnitPrice, freq = FALSE, xlab = "Unit Price", main = "Density Plot of the A Unit Price per Dollar in this Study", col="lightblue")
+curve(dnorm(x, mean=mean(mySets$UnitPrice), sd=sd(mySets$UnitPrice)), add=TRUE, col="darkred", lwd=2)
+```
+
+Now I want to check how much People are welling to buy online using historgram and ggplot2.
+```{r}
+A <- ggplot(mySets, aes(x=Amount))
+B <- A + geom_histogram(binwidth = 1, color='red',fill='pink', alpha = 0.4)
+C <- B + xlab('Amount of sales') + ylab('Count')
+print(C + ggtitle("Count of the Total Amount of sales"))
+```
+
+Now I want to check the density of the Amounts spent on the internet in 2010.
+```{r}
+ggplot(data = mySets) + geom_density(aes(x = Amount), fill = "grey50")
+```
+
+Now I want to check the Amounts spent each of the five countries we have on the list using ggplot with line data.
+```{r}
+ggplot(mySets, aes(x = Country, y = Amount)) + geom_line()
+```
+
+Scatter plot using Country and Amount variables
+```{r}
+ggplot(mySets, aes(x = Country, y = Amount))+ geom_point()
+```
+
+Scatter plot using Country, Amount, and Unit Price variables
+```{r}
+graph <- ggplot(mySets, aes(x= Country, y = Amount)) + geom_line(color = "red") + geom_point()
+graph <- graph + geom_line(aes(x = Country, y = UnitPrice), color = "green")
+graph
+```
+
+Using Graph scatter plot for Amounts spent each of the five countries using geom_point and geom_point with the opposit axis.
+```{r}
+ggplot(mySets, aes(x = Amount, y = Country)) + geom_point(na.rm=TRUE)+geom_smooth(method=lm,se=FALSE, na.rm=TRUE)
+```
+
+4. Meaningful question for analysis: Please state at the beginning a meaningful question for analysis. Use the first three steps and anything else that would be helpful to answer the question you are posing from the data set you chose. Please write a brief conclusion paragraph in R markdown at the end.
+
+# Conclusion: 
+After analyzing the online sales in five different countries  “Australia, Belgium, France, Germany, United Kingdom”, its clearly that people are willing to buy stuff online 2010 in the UK more than any other country in the study. The majority of the items and units prices sold online are less than $10, this means the cheaper items with less than 10 dollars the more likely to be sold online, but in Australia the unit prices of online purchases are little higher than than the other countries. Finally I advise to expand in the UK as the country with the highest numbers of online sales by providing more low prices products, and in order to invest in the other countires there must be more programs to encourage buyers to buy products online. 

@@ -1,0 +1,84 @@
+# R Bridge Week 2 Assignment
+
+```{r}
+url<- "https://raw.githubusercontent.com/akarimhammoud/R_Bridge_CUNY_Week2/master/datasets.csv"
+data1 <- read.csv(file= url, header=TRUE, sep=",")
+head(data1)
+```
+
+#1. Use the summary function to gain an overview of the data set. Then display the mean and median for at least two attributes.
+
+```{r}
+#summary
+summary(data1)
+
+# Mean and Median of attribute n_binary
+binary_mean <- mean(data1$n_binary)
+binary_median <- median(data1$n_binary)
+print(paste0("binary mean is ", round(binary_mean, 2),", binary median is ", round(binary_median, 2)))
+
+# Mean and Median of attribute  n_factor 
+factor_mean <- mean(data1$n_factor)
+factor_median <- median(data1$ n_factor)
+print(paste0("factor mean is ", round(factor_mean, 2),", factor median is ", round(factor_median)))
+```
+
+# 2. Create a new data frame with a subset of the columns and rows. Make sure to rename it.
+
+```{r}
+frame1 <- data.frame(subset(data1, n_character >= 1 & n_logical == 1))
+
+frame1 <- data1[2:10, c("Item","Title","Rows","Cols")]
+colnames(frame1) <- c("Unit","Kind","Records","Quantity")
+frame1
+```
+#3. Create new column names for the new data frame.
+
+```{r}
+colnames(frame1) <- c("Unit1","Kind2","Records3","Quantity4")
+frame1
+```
+
+#4. Use the summary function to create an overview of your new data frame. The print the mean and median for the same two attributes. Please compare.
+```{r}
+summary(frame1)
+
+# Mean and Median of attribute Records3 compated with n_binary
+Records3_mean <- mean(frame1$Records3)
+Records3_median <- median(frame1$Records3)
+print(paste0("n_binary mean is ", round(binary_mean, 2),", Records3 mean is ", round(Records3_mean, 2)))
+print(paste0("n_binary median is ", round(binary_median, 2),", Records3 median is ", round(Records3_median, 2)))
+
+# Mean and Median of attribute H Compared with n_character
+Quantity4_mean <- mean(frame1$Quantity4)
+Quantity4_median <- median(frame1$Quantity4)
+print(paste0("n_character mean is ", round(factor_mean, 2),", Quantity mean is ", round(Quantity4_mean, 2)))
+print(paste0("n_character median is ", round(factor_median, 2),", Quantity median is ", round(Quantity4_median, 2)))
+```
+
+#5. For at least 3 values in a column please rename so that every value in that column is renamed. For example, suppose I have 20 values of the letter “e” in one column. Rename those values so that all 20 would show as “excellent”.
+
+```{r}
+frame1
+
+#Replacing 'aids' to 'diabities', 'amis' to 'HeartAttack' and 'beaver' to 'fever' in column Unit1
+frame1$Unit1 <- sub("*aids", "diabities", frame1$Unit1)
+frame1$Unit1 <- sub("*(amis)", "heartattack", frame1$Unit1)
+frame1$Unit1 <- sub("*(beaver)", "fever", frame1$Unit1)
+head(frame1)
+```
+
+#6. Display enough rows to see examples of all of steps 1-5 above.
+
+```{r}
+frame1
+```
+
+#BONUS – place the original .csv in a github file and have R read from the link. This will be a very useful skill as you progress in your data science education and career.
+
+```{r}
+url<- "https://raw.githubusercontent.com/akarimhammoud/R_Bridge_CUNY_Week2/master/datasets.csv"
+data1 <- read.csv(file= url, header=TRUE, sep=",")
+head(data1)
+head(data1$Item)
+```

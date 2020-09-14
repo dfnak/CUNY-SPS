@@ -1,0 +1,47 @@
+# R Bridge Week 1 Assignment
+
+# 1. Write a loop that calculates 12-factorial
+
+```{r}
+factorial = 1
+for (n in 1:12){ 
+  if(n == 1) factorial= 1
+  else {
+    factorial <- factorial * n
+  }
+  cat(n, "!:", factorial, "\n")
+}
+```
+
+
+# 2. Show how to create a numeric vector that contains the sequence from 20 to 50 by 5. 
+
+
+```{r}
+vector <- c(seq.int(20, 50, by = 5))
+vector
+
+```
+
+
+
+# 3. Create the function “quadratic” that takes a trio of input numbers a, b, and c and solve the quadratic equation. The function should print as output the two solutions.
+
+```{r}
+ quadratic <- function(a, b, c) {
+  Sqrtnum <- b^2 - 4*a*c
+  if(Sqrtnum > 0) {
+    x1 <- (-b+sqrt(b^2 - 4*a*c))/(2*a)
+    x2 <- (-b-sqrt(b^2 - 4*a*c))/(2*a)
+    x3 <- c(x1, x2)
+    x3
+  } else if (Sqrtnum == 0) {
+    x3 <- -b/(2*a)
+    x3
+  } else {"the number under square root is zero or less."}
+}
+
+quadratic(5, -3, -2)
+
+quadratic(6, 9, 4)
+```
