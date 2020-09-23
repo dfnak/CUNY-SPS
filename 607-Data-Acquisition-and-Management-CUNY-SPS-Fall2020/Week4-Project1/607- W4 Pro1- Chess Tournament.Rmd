@@ -130,5 +130,5 @@ tail(final_data)
 ## Create the CSV file in the general folder in Mac
 
 ```{r}
-write.csv(final_data, file = "../Project1_607.csv")
+write.csv(final_data, file = "/Users/karimh/Documents/R practices/Project1_607.csv")
 ```
