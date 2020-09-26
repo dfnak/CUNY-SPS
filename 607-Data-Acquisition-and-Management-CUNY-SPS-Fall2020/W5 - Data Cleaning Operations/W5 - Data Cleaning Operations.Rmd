@@ -1,0 +1,142 @@
+---
+title: "607 - Data Cleaning Operations"
+author: "Karim Hammoud"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    highlight: pygments
+    theme: cerulean
+    toc: yes
+    toc_float: yes
+  pdf_document: default
+  openintro::lab_report: default
+editor_options:
+  chunk_output_type: console
+---
+
+**Please find the [Rpubs here](https://rpubs.com/karim7mod/666335)**
+**and the [Github link](https://github.com/akarimhammoud/CUNY-SPS/tree/master/607-Data-Acquisition-and-Management-CUNY-SPS-Fall2020/W5%20-%20Data%20Cleaning%20Operations)**
+
+
+## **Tidying and Transforming Data**
+
+![](ImageW5.png)
+
+The chart above describes arrival delays for two airlines across five destinations. Your task is to:
+
+## Import the libraries
+
+```{r message=FALSE}
+library(tidyr)
+library(dplyr)
+library(RMySQL)
+library(ggplot2)
+```
+
+## Create the CSV file with the arrival delays data
+
+```{r}
+data <- rbind(c("Airline", "Status", "Los Angeles", "Phoenix", "San Diego", "San Francisco", "Seattle"),
+             c("ALASKA", "On Time", 497, 221, 212, 503, 1841),
+             c("ALASKA", "Delayed", 62, 12, 20, 102, 305),
+             c("AM WEST", "On Time", 694, 4840, 383, 320, 201),
+             c("AM WEST", "Delayed", 117, 415, 65, 129, 61))
+write.table(data, file = "/Users/karimh/Documents/Google Drive/607 - 2020 Fall- Data Acquisition and Management DATA 607 CUNY SPS/607 - W5 - Working with Tidy Data/DATA_607_Assignment5.csv", sep = ",", col.names=F, row.names=F)
+```
+
+Read the data from Github
+
+```{r}
+url <- "https://raw.githubusercontent.com/akarimhammoud/CUNY-SPS/master/607-Data-Acquisition-and-Management-CUNY-SPS-Fall2020/W5%20-%20Data%20Cleaning%20Operations/DATA_607_Assignment5.csv"
+delays <- read.csv(url, sep = ",")
+delays
+```
+
+### Connect to MySql on Google Cloud host
+```{r}
+conn <- dbConnect (MySQL(),
+                 user="root", password= "dav",
+                 dbname="data607", host= "35.188.162.1")
+conn
+```
+
+
+Creating Tables
+```{r}
+dbWriteTable (conn, 'delays', delays, overwrite = TRUE)
+```
+
+Reading from the database
+```{r}
+delays1 <- dbGetQuery(conn, 'select * from delays')
+delays <- delays1 [,-1]
+delays
+```
+
+### Rearrange the data as a table and sort by Status.
+
+```{r}
+delays_table <- delays %>%
+ gather("Destination", "Flights", 3:7) %>% 
+ arrange(Airline, desc(Status), Destination)
+delays_table
+```
+
+## Analyze the arrival delays for the two airlines.
+
+filtering and creating new data frame
+```{r}
+on_time <- filter(delays_table, Status == "On Time")
+on_time
+delayed <- filter(delays_table, Status == "Delayed")
+delayed
+
+my_frame <- data.frame(on_time, delayed)
+my_frame
+```
+
+The percentage of differences per city and airlines
+```{r}
+my_frame$Diffrences <- my_frame$Flights / (my_frame$Flights + my_frame$Flights.1)
+my_frame$Diffrences
+```
+
+creating new data frame 
+```{r}
+my_frame <- data.frame(my_frame$Airline, my_frame$Status, my_frame$Destination, my_frame$Diffrences)
+my_frame
+```
+
+Percentage of delays and ontime per Airline
+```{r}
+ Status_details <- delays_table %>%
+  group_by(Airline) %>%
+  mutate(Total_Airline = sum(Flights)) %>% 
+  group_by(Airline, Status) %>%
+  mutate(Total_Airline_Status = sum(Flights), Status_Percentage  = Total_Airline_Status / Total_Airline) 
+
+Final_percentage <- data.frame(Status_details[c(1,10,11,20), c(1,2,7)])
+```
+
+Percentage of delays and ontime per Ditenation for each Airline
+```{r}
+Destination_details <- delays_table %>%
+ group_by(Airline, Destination) %>%
+ mutate(Total_destination = sum(Flights), Percentage_distintaion = Flights / Total_destination)
+
+head(Destination_details)
+```
+
+Filter only for the ONTIME and create the plot
+```{r}
+Final_percentage
+on_time <- filter(Final_percentage, Status == "On Time")
+
+ggplot(on_time , mapping = aes(x=Airline, y=Status_Percentage, fill=Airline)) +
+  geom_bar(stat="identity",) 
+```
+
+
+## Conclusion 
+**From the analysis above it look like the AM West has over 89% of its flights on time while Alaska has over 86%, both airlines have a close percentages of on time flights but in this example AM West has a higher number of flights.**
+
