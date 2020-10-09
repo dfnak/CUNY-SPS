@@ -1,0 +1,25 @@
+{"books":[
+    {
+    "BookTitle": "Rich Dad Poor Dad",
+    "Author": "Robert Kiyosaki, Sharon Lechter",
+    "Genre": "Personal Finance",
+    "YearPublished": 1997,
+    "NumberPages": 207
+    },
+    {
+    "BookTitle": "Shoe Dog",
+    "Author": "Phil Knight",
+    "Genre": "Biography",
+    "YearPublished": 2016,
+    "NumberPages": 386
+    },
+    {
+    "BookTitle": "Fear",
+    "Author": "Bob Woodward",
+    "Genre": "Biography",
+    "YearPublished": 2018,
+    "NumberPages": 448
+    }]
+}
+
+
