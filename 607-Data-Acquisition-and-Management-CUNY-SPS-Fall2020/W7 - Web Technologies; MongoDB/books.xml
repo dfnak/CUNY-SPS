@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<books>
+    <book id="1">
+        <BookTitle>Rich Dad Poor Dad</BookTitle>
+        <Author>Robert Kiyosaki, Sharon Lechter</Author>
+        <Genre>Personal Finance</Genre>
+        <YearPublished>1997</YearPublished>
+        <NumberPages>207</NumberPages>
+    </book>
+    <book id="2">
+        <BookTitle>Shoe Dog: A Memoir by the Creator of Nike</BookTitle>
+        <Author>Phil Knight</Author>
+        <Genre>Biography</Genre>
+        <YearPublished>2016</YearPublished>
+        <NumberPages>386</NumberPages>
+    </book>
+    <book id="3">
+        <BookTitle>Fear: Trump in the White House</BookTitle>
+        <Author>Bob Woodward</Author>
+        <Genre>Biography</Genre>
+        <YearPublished>2018</YearPublished>
+        <NumberPages>448</NumberPages>
+   </book>
+</books>
