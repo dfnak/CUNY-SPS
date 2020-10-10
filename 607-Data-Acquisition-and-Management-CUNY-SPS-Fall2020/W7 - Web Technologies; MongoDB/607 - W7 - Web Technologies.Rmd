@@ -1,0 +1,100 @@
+---
+title: "607 - Web Technologies"
+author: "Karim Hammoud - karimalhammoud@gmail.com"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    highlight: pygments
+    theme: cerulean
+    toc: yes
+    toc_float: yes
+  pdf_document: default
+  openintro::lab_report: default
+editor_options:
+  chunk_output_type: console
+---
+
+## **The Assignment – Working with XML and JSON in R**
+
+**I picked three movies:**
+
+1- Rich Dad Poor.
+
+2- Shoe Dog: A Memoir by the Creator of Nike.
+
+3- Fear: Trump in the White House.
+
+Other than the Book Title I am using the four other attributes including Author, Genre, YearPublished, and Number of Pages. I created three files to store the information in HTML, XML, and JSON formats, I will run codes to pull the data from my github to compare the data.
+
+**Please find the [Rpubs here](https://rpubs.com/karim7mod/673226)**
+
+**Please find rmd, html, xml, json files on [Github link](https://github.com/akarimhammoud/CUNY-SPS/tree/master/607-Data-Acquisition-and-Management-CUNY-SPS-Fall2020/W7%20-%20Web%20Technologies%3B%20MongoDB)**
+
+## CSV File
+
+I will start by pulling the CSV file to compare the data
+
+```{r}
+df_csv <- read.csv("https://raw.githubusercontent.com/akarimhammoud/CUNY-SPS/master/607-Data-Acquisition-and-Management-CUNY-SPS-Fall2020/W7%20-%20Web%20Technologies%3B%20MongoDB/Books.csv")
+df_csv
+```
+
+## XML File
+
+```{r}
+#running the required libraries
+library("RCurl", quietly = TRUE)
+library("XML", quietly = TRUE)
+
+#getting the url for the xml data
+df_xml <-getURL("https://raw.githubusercontent.com/akarimhammoud/CUNY-SPS/master/607-Data-Acquisition-and-Management-CUNY-SPS-Fall2020/W7%20-%20Web%20Technologies%3B%20MongoDB/Books.xml")
+
+#getting the xml data frame for the file
+df_xml <- xmlToDataFrame(df_xml)
+df_xml
+```
+
+## HTML File
+
+```{r include=TRUE, message=FALSE}
+#running the required libraries
+library("textreadr", quietly = TRUE)
+library("rvest", quietly = TRUE)
+library("xml2", quietly = TRUE)
+```
+
+```{r}
+#getting the url for the HTML data
+df_html<-read_html('https://raw.githubusercontent.com/akarimhammoud/CUNY-SPS/master/607-Data-Acquisition-and-Management-CUNY-SPS-Fall2020/W7%20-%20Web%20Technologies%3B%20MongoDB/Books.html')
+
+#Running the html table
+df_html <- html_table(df_html, dec = ".", fill = TRUE)
+df_html
+```
+
+## JSON File
+
+```{r}
+#running the required libraries
+library(jsonlite, quietly = TRUE)
+
+#getting the url for the JSON data
+df_json <- read_json("https://raw.githubusercontent.com/akarimhammoud/CUNY-SPS/master/607-Data-Acquisition-and-Management-CUNY-SPS-Fall2020/W7%20-%20Web%20Technologies%3B%20MongoDB/Books.json", simplifyVector = TRUE)
+
+df_json
+```
+
+## Conclusion
+**The HTML, XML, and JSON files are identical and look the same after running them on Rmarkdown, even with the two authors case it is still identical.**
+
+**Here a is reference on how to create an [HTML tables](https://www.w3schools.com/html/html_tables.asp)**
+
+
+**Here a is reference on how to create an [XML tables](http://www.w3schools.com/xml/default.asp)**
+
+
+**Here a is reference on how to create an [JSON tables](https://www.w3schools.com/js/js_json_intro.asp)**
+
+
+
+
