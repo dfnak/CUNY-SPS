@@ -101,6 +101,7 @@ for(i in 1:iterations){
       m[row, 11] <- j$type_of_material
     
     row <- row + 1
+  }
 }
 ```
 
